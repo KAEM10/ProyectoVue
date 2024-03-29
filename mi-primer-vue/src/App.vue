@@ -1,7 +1,7 @@
 <script>
 export default{
     data() {
-      return {
+    return {
         usuarios: [],
         nombreUsuario: '',
         emailUsuario: '',
@@ -15,11 +15,12 @@ export default{
         titulo1: 'Usuarios',
         titulo2: 'Productos',
         titulo3: 'Pedidos'
-      };
+    };
     },
     methods: {
         cargarUsuarios() {
-            fetch('http://localhost:3000/usuarios')
+            //mirar cual es la direccion correcta
+            fetch('http://localhost/phpmyadmin/index.php?route=/sql&db=proyectovue&table=usuarios&pos=0')
                 .then(response => response.json())
                 .then(data => {
                     this.usuarios = data;
