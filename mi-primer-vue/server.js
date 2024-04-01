@@ -43,7 +43,7 @@ app.post('/consultaSesion', (req, res) => {
     const contrasena = req.body.contrasena;
     console.log(usuario);
     // Realiza la consulta a la base de datos
-    const consulta = `SELECT * FROM usuarios WHERE nombre = '${usuario}' AND email = '${contrasena}'`;
+    const consulta = `SELECT * FROM usuarios WHERE nombre = '${usuario}' AND contrasena = '${contrasena}'`;
     connection.query(consulta, [usuario, contrasena], (error, results) => {
         if (error) {
             console.error(error);
