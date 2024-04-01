@@ -1,7 +1,8 @@
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL
+    email VARCHAR(255) NOT NULL,
+    contrasena VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE productos (
@@ -19,16 +20,16 @@ CREATE TABLE pedidos (
     FOREIGN KEY (producto_id) REFERENCES productos(id)
 );
 
-INSERT INTO usuarios (nombre, email) VALUES ('Juan Pérez', 'juan@example.com');
-INSERT INTO usuarios (nombre, email) VALUES ('María López', 'maria@example.com');
-INSERT INTO usuarios (nombre, email) VALUES ('Pedro García', 'pedro@example.com');
-INSERT INTO usuarios (nombre, email) VALUES ('Ana Martínez', 'ana@example.com');
-INSERT INTO usuarios (nombre, email) VALUES ('Luis Rodríguez', 'luis@example.com');
-INSERT INTO usuarios (nombre, email) VALUES ('Laura Gómez', 'laura@example.com');
-INSERT INTO usuarios (nombre, email) VALUES ('Carlos Sánchez', 'carlos@example.com');
-INSERT INTO usuarios (nombre, email) VALUES ('Elena Vargas', 'elena@example.com');
-INSERT INTO usuarios (nombre, email) VALUES ('Sofía Ramírez', 'sofia@example.com');
-INSERT INTO usuarios (nombre, email) VALUES ('Javier Ruiz', 'javier@example.com');
+INSERT INTO usuarios (nombre, email, contrasena) VALUES ('Juan Pérez', 'juan@example.com', 'contrasena1');
+INSERT INTO usuarios (nombre, email, contrasena) VALUES ('María López', 'maria@example.com', 'contrasena2');
+INSERT INTO usuarios (nombre, email, contrasena) VALUES ('Pedro García', 'pedro@example.com', 'contrasena3');
+INSERT INTO usuarios (nombre, email, contrasena) VALUES ('Ana Martínez', 'ana@example.com', 'contrasena4');
+INSERT INTO usuarios (nombre, email, contrasena) VALUES ('Luis Rodríguez', 'luis@example.com', 'contrasena5');
+INSERT INTO usuarios (nombre, email, contrasena) VALUES ('Laura Gómez', 'laura@example.com', 'contrasena6');
+INSERT INTO usuarios (nombre, email, contrasena) VALUES ('Carlos Sánchez', 'carlos@example.com', 'contrasena7');
+INSERT INTO usuarios (nombre, email, contrasena) VALUES ('Elena Vargas', 'elena@example.com', 'contrasena8');
+INSERT INTO usuarios (nombre, email, contrasena) VALUES ('Sofía Ramírez', 'sofia@example.com', 'contrasena9');
+INSERT INTO usuarios (nombre, email, contrasena) VALUES ('Javier Ruiz', 'javier@example.com', 'contrasena10');
 
 INSERT INTO productos (nombre, precio) VALUES ('Producto 1', 10.99);
 INSERT INTO productos (nombre, precio) VALUES ('Producto 2', 20.49);
