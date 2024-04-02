@@ -183,7 +183,7 @@ export default {
                     <template v-if = "editId == usuario.id"> 
                         <td>{{ usuario.id }}</td>
                         <td><input type="text" v-model="usuario.nombre" class="form-control"></td>
-                        <td><input type="text" v-model="usuario.email" class="form-control"></td>
+                        <td><input type="email" v-model="usuario.email" class="form-control"></td>
                         <td>
                             <a href="#" class="icon">
                                 <i v-on:click="actualizarUsuario(usuario)" class="bi bi-check"></i>
