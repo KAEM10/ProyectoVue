@@ -6,7 +6,7 @@
 
             <!-- Icon -->
             <div class="fadeIn first">
-                <img src="../../public/favicon.ico" id="icon" alt="User Icon" />
+                <img src="../../public/logo.jpg" id="icon" alt="User Icon" />
             </div>
 
             <!-- Login Form -->
@@ -75,8 +75,9 @@ export default {
 
                     //MUCHACHOS AQUI SI PUEDEN ARREGLAN LO DEL ROUTER, YO VERE
 
-                   // if(localStorage.token!="undefined"){
-                    this.$router.push('productos');
+                    if(localStorage.token!="undefined"){
+                        this.$router.push('productos');
+                    }
                     //this.$bus('autenticacionExitosa');
 
                    // }
