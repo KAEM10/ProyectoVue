@@ -64,6 +64,7 @@ app.get('/usuarios', (req, res) => {
     });
 });
 
+
 app.post('/usuarios', (req, res) => {
     const { nombre, email, pass } = req.body;
     connection.query('INSERT INTO usuarios (nombre, email, contrasena) VALUES (?, ?, ?)', [nombre, email, pass], (error, results) => {
@@ -86,6 +87,42 @@ app.delete('/usuarios/:id', (req, res) => {
     connection.query('DELETE FROM usuarios WHERE id = ?', [id], (error, results) => {
         if (error) throw error;
         res.json({ message: 'Usuario eliminado' });
+    });
+});
+
+
+app.get('/productos', (req, res) => {
+    connection.query('SELECT * FROM productos', (error, results) => {
+        if (error) {
+            res.status(500).json({ error: 'Error al obtener productos' });
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+app.post('/productos', (req, res) => {
+    const { nombre, precio } = req.body;
+    connection.query('INSERT INTO productos (nombre, precio) VALUES (?, ?)', [nombre, precio], (error, results) => {
+        if (error) throw error;
+        res.json({ message: 'Producto creado', id: results.insertId });
+    });
+});
+
+app.put('/productos/:id', (req, res) => {
+    const id = req.params.id;
+    const { nombre, precio } = req.body;
+    connection.query('UPDATE productos SET nombre = ?, precio = ? WHERE id = ?', [nombre, precio,id], (error, results) => {
+        if (error) throw error;
+        res.json({ message: 'Producto actualizado' });
+    });
+});
+
+app.delete('/productos/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('DELETE FROM productos WHERE id = ?', [id], (error, results) => {
+        if (error) throw error;
+        res.json({ message: 'producto eliminado' });
     });
 });
 
