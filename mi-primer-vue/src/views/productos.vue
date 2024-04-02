@@ -93,7 +93,9 @@ export default {
             })
                 .then(response => response.json())
                 .then(() => {
-                    this.onCancel();
+                    this.editId = '';
+                    // Volver a cargar la lista de usuarios
+                    this.cargarUsuarios();
                 })
                 .catch(error => {
                     console.error('Error al actualizar usuario:', error);
@@ -215,7 +217,8 @@ export default {
 </template>
 
 <style>
-h1 {
-    color: red;
+.bi {
+    font-size: 1.5rem;
+    color: #007bff;
 }
 </style>
