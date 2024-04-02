@@ -21,6 +21,26 @@ export default {
         //this.cargarPedidos();
     },
     methods: {
+        cargarProductos() {
+            fetch('http://localhost:3000/productos')
+                .then(response => response.json())
+                .then(data => {
+                    this.productos = data;
+                })
+                .catch(error => {
+                    console.error('Error al cargar productos:', error);
+                });
+        },
+        cargarPedidos() {
+            fetch('http://localhost:3000/pedidos')
+                .then(response => response.json())
+                .then(data => {
+                    this.pedidos = data;
+                })
+                .catch(error => {
+                    console.error('Error al cargar pedidos:', error);
+                });
+        },
         cargarUsuarios() {
             fetch('http://localhost:3000/usuarios')
                 .then(response => response.json())
@@ -57,52 +77,27 @@ export default {
                     console.error('Error al agregar usuario:', error);
                 });
         },
-        cargarProductos() {
-            fetch('http://localhost:3000/productos')
-                .then(response => response.json())
-                .then(data => {
-                    this.productos = data;
-                })
-                .catch(error => {
-                    console.error('Error al cargar productos:', error);
-                });
-        },
-        agregarProducto() {
-            this.productos.push({
-                id: this.productos.length + 1,
-                nombre: this.nombreProducto,
-                precio: this.precioProducto
-            });
-            this.nombreProducto = '';
-            this.precioProducto = '';
-        },
-        cargarPedidos() {
-            fetch('http://localhost:3000/pedidos')
-                .then(response => response.json())
-                .then(data => {
-                    this.pedidos = data;
-                })
-                .catch(error => {
-                    console.error('Error al cargar pedidos:', error);
-                });
-        },
-        agregarPedido() {
-            this.pedidos.push({
-                id: this.pedidos.length + 1,
-                usuarioId: this.usuarioIdPedido,
-                productoId: this.productoIdPedido,
-                cantidad: this.cantidadPedido
-            });
-            this.usuarioIdPedido = '';
-            this.productoIdPedido = '';
-            this.cantidadPedido = '';
-            console.log(this.pedidos);
-        },
         onEdit(usuario){
             this.editId = usuario.id
         },
         onCancel(){
             this.editId = ''
+        },
+        actualizarUsuario(usuario) {
+            fetch(`http://localhost:3000/usuarios/${usuario.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(usuario)
+            })
+                .then(response => response.json())
+                .then(() => {
+                    this.onCancel();
+                })
+                .catch(error => {
+                    console.error('Error al actualizar usuario:', error);
+                });
         },
         eliminarUsuario(id) {
             fetch(`http://localhost:3000/usuarios/${id}`, {
@@ -110,7 +105,6 @@ export default {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-                //body: JSON.stringify(nuevoUsuario)
             })
             .then(response => response.json())
                 .then(() => {

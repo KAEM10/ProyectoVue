@@ -72,14 +72,14 @@ app.post('/usuarios', (req, res) => {
     });
 });
 
-/*app.put('/usuarios/:id', (req, res) => {
+app.put('/usuarios/:id', (req, res) => {
     const id = req.params.id;
-    const { nombre, email, pass } = req.body;
-    connection.query('UPDATE usuarios SET nombre = ?, email = ?, contrasena = ? WHERE id = ?', [nombre, email, pass, id], (error, results) => {
+    const { nombre, email } = req.body;
+    connection.query('UPDATE usuarios SET nombre = ?, email = ? WHERE id = ?', [nombre, email, id], (error, results) => {
         if (error) throw error;
         res.json({ message: 'Usuario actualizado' });
     });
-});*/
+});
 
 app.delete('/usuarios/:id', (req, res) => {
     const id = req.params.id;
