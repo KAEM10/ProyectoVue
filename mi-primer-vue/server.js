@@ -28,15 +28,6 @@ connection.connect(function (error) {
     }
 });
 
-app.get('/usuarios', (req, res) => {
-    connection.query('SELECT * FROM usuarios', (error, results) => {
-        if (error) {
-            res.status(500).json({ error: 'Error al obtener usuarios' });
-        } else {
-            res.json(results);
-        }
-    });
-});
 // Maneja la solicitud POST desde el cliente
 app.post('/consultaSesion', (req, res) => {
     const usuario = req.body.usuario;
@@ -61,7 +52,18 @@ app.post('/consultaSesion', (req, res) => {
         }
     });
 });
-//connection.end();
+
+//rutas para obtener, crear, actualizar y eliminar usuarios
+app.get('/usuarios', (req, res) => {
+    connection.query('SELECT * FROM usuarios', (error, results) => {
+        if (error) {
+            res.status(500).json({ error: 'Error al obtener usuarios' });
+        } else {
+            res.json(results);
+        }
+    });
+});
+
 app.post('/usuarios', (req, res) => {
     const { nombre, email, pass } = req.body;
     connection.query('INSERT INTO usuarios (nombre, email, contrasena) VALUES (?, ?, ?)', [nombre, email, pass], (error, results) => {
@@ -70,7 +72,23 @@ app.post('/usuarios', (req, res) => {
     });
 });
 
-// Implementar las rutas para actualizar y eliminar usuarios
+/*app.put('/usuarios/:id', (req, res) => {
+    const id = req.params.id;
+    const { nombre, email, pass } = req.body;
+    connection.query('UPDATE usuarios SET nombre = ?, email = ?, contrasena = ? WHERE id = ?', [nombre, email, pass, id], (error, results) => {
+        if (error) throw error;
+        res.json({ message: 'Usuario actualizado' });
+    });
+});*/
+
+app.delete('/usuarios/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('DELETE FROM usuarios WHERE id = ?', [id], (error, results) => {
+        if (error) throw error;
+        res.json({ message: 'Usuario eliminado' });
+    });
+});
+
 
 app.listen(port, () => {
     console.log(`Servidor iniciado en http://localhost:${port}`);

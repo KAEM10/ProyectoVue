@@ -17,6 +17,8 @@ export default {
     },
     mounted() {
         this.cargarUsuarios();
+        //this.cargarProductos();
+        //this.cargarPedidos();
     },
     methods: {
         cargarUsuarios() {
@@ -55,6 +57,16 @@ export default {
                     console.error('Error al agregar usuario:', error);
                 });
         },
+        cargarProductos() {
+            fetch('http://localhost:3000/productos')
+                .then(response => response.json())
+                .then(data => {
+                    this.productos = data;
+                })
+                .catch(error => {
+                    console.error('Error al cargar productos:', error);
+                });
+        },
         agregarProducto() {
             this.productos.push({
                 id: this.productos.length + 1,
@@ -63,6 +75,16 @@ export default {
             });
             this.nombreProducto = '';
             this.precioProducto = '';
+        },
+        cargarPedidos() {
+            fetch('http://localhost:3000/pedidos')
+                .then(response => response.json())
+                .then(data => {
+                    this.pedidos = data;
+                })
+                .catch(error => {
+                    console.error('Error al cargar pedidos:', error);
+                });
         },
         agregarPedido() {
             this.pedidos.push({
@@ -75,9 +97,34 @@ export default {
             this.productoIdPedido = '';
             this.cantidadPedido = '';
             console.log(this.pedidos);
-        
-        }
-        
+        },
+        onEdit(usuario){
+            this.editId = usuario.id
+        },
+        onCancel(){
+            this.editId = ''
+        },
+        eliminarUsuario(id) {
+            fetch(`http://localhost:3000/usuarios/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                //body: JSON.stringify(nuevoUsuario)
+            })
+            .then(response => response.json())
+                .then(() => {
+                    const index = this.usuarios.findIndex(usuario => usuario.id === id);
+                    if (index !== -1) {
+                        this.usuarios.splice(index, 1);
+                    }
+                    // Volver a cargar la lista de usuarios
+                    this.cargarUsuarios();
+                })
+                .catch(error => {
+                    console.error('Error al eliminar usuario:', error);
+                });
+        },
     },
 };
 
@@ -137,17 +184,32 @@ export default {
             </thead>
             <tbody>
                 <tr v-for="usuario in usuarios" :key="usuario.id">
-                <td>{{ usuario.id }}</td>
-                <td>{{ usuario.nombre }}</td>
-                <td>{{ usuario.email }}</td>
-                <td>
-                    <a href="#" class="icon">
-                      <i v-on:click="onEdit(product)" class="bi bi-pencil"></i>
-                    </a>
-                    <a href="#" class="icon">
-                      <i v-on:click="onDelete(product.id)" class="bi bi-trash"></i>
-                    </a>
-                </td>
+                    <template v-if = "editId == usuario.id"> 
+                        <td>{{ usuario.id }}</td>
+                        <td><input type="text" v-model="usuario.nombre" class="form-control"></td>
+                        <td><input type="text" v-model="usuario.email" class="form-control"></td>
+                        <td>
+                            <a href="#" class="icon">
+                                <i v-on:click="actualizarUsuario(usuario)" class="bi bi-check"></i>
+                            </a>
+                            <a href="#" class="icon">
+                                <i v-on:click="onCancel" class="bi bi-x-circle"></i>
+                            </a>
+                        </td>
+                    </template>
+                    <template v-else>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.nombre }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>
+                            <a href="#" class="icon">
+                                <i v-on:click="onEdit(usuario)" class="bi bi-pencil"></i>
+                            </a>
+                            <a href="#" class="icon">
+                                <i v-on:click="eliminarUsuario(usuario.id)" class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </template>
                 </tr>
             </tbody>
             </table>
