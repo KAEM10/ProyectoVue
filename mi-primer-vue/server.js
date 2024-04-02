@@ -63,8 +63,8 @@ app.post('/consultaSesion', (req, res) => {
 });
 //connection.end();
 app.post('/usuarios', (req, res) => {
-    const { nombre, email } = req.body;
-    connection.query('INSERT INTO usuarios (nombre, email) VALUES (?, ?)', [nombre, email], (error, results) => {
+    const { nombre, email, pass } = req.body;
+    connection.query('INSERT INTO usuarios (nombre, email, contrasena) VALUES (?, ?, ?)', [nombre, email, pass], (error, results) => {
         if (error) throw error;
         res.json({ message: 'Usuario creado', id: results.insertId });
     });

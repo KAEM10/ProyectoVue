@@ -5,17 +5,18 @@ export default {
             usuarios: [],
             nombreUsuario: '',
             emailUsuario: '',
+            passUsuario: '',
             productos: [],
             nombreProducto: '',
             precioProducto: '',
             pedidos: [],
             usuarioIdPedido: '',
             productoIdPedido: '',
-            cantidadPedido: '',
-            titulo1: 'Usuarios',
-            titulo2: 'Productos',
-            titulo3: 'Pedidos'
+            cantidadPedido: ''
         };
+    },
+    mounted() {
+        this.cargarUsuarios();
     },
     methods: {
         cargarUsuarios() {
@@ -29,11 +30,10 @@ export default {
                 });
         },
         agregarUsuario() {
-           
-
             const nuevoUsuario = {
                 nombre: this.nombreUsuario,
-                email: this.emailUsuario
+                email: this.emailUsuario,
+                pass: this.passUsuario
             };
             fetch('http://localhost:3000/usuarios', {
                 method: 'POST',
@@ -49,6 +49,7 @@ export default {
                     // Limpia los campos de entrada
                     this.nombreUsuario = '';
                     this.emailUsuario = '';
+                    this.passUsuario = '';
                 })
                 .catch(error => {
                     console.error('Error al agregar usuario:', error);
@@ -83,48 +84,76 @@ export default {
 </script>
 
 <template>
-    <div>
-        <!-- Usuarios -->
-        <div>
-            <h1>{{ titulo1 }}</h1>
-            <ul  @submit.prevent="cargarUsuarios">
-                <li v-for="usuario in usuarios" :key="usuario.id">{{ usuario.id }} - {{ usuario.nombre }} - {{
-                usuario.email }}</li>
-            </ul>
-            <form @submit.prevent="agregarUsuario">
-                <input type="text" v-model="nombreUsuario" placeholder="Nombre">
-                <input type="email" v-model="emailUsuario" placeholder="Email@ejemplo">
-                <button type="submit">Agregar Usuario</button>
-            </form>
+    <div class="products">
+    <h3>Usuarios</h3>
+    <div class="card">
+        <div class="card-header">
+        Agregar Nuevo Usuario
         </div>
-        <!-- Productos -->
-        <div>
-            <h1>{{ titulo2 }}</h1>
-            <ul>
-                <li v-for="producto in productos" :key="producto.id">{{ producto.id }} - {{ producto.nombre }} - {{
-                producto.precio }}</li>
-            </ul>
-            <form @submit.prevent="agregarProducto">
-                <input type="text" v-model="nombreProducto" placeholder="Nombre">
-                <input type="number" v-model="precioProducto" placeholder="Precio">
-                <button type="submit">Agregar Producto</button>
-            </form>
+        <div class="card-body">
+        <form class="form-inline" v-on:submit.prevent="agregarUsuario">
+            
+            <div class="form-group">
+            <label>Nombre</label>
+            <input v-model="nombreUsuario" type="text" class="form-control ml-sm-2 mr-sm-4 my-2" required>
+            </div>
+            <div class="form-group">
+            <label>Email</label>
+            <input v-model="emailUsuario" type="email" class="form-control ml-sm-2 mr-sm-4 my-2" required>
+            </div>
+            <div class="form-group">
+            <label>Contraseña</label>
+            <input v-model="passUsuario" type="text" class="form-control ml-sm-2 mr-sm-4 my-2" required>
+            </div>
+            <div class="ml-auto text-right">
+            <button @click="cargarUsuarios" type="submit" class="btn btn-primary my-2">Agregar</button>
+            </div>
+        </form>
         </div>
-        <!-- Pedidos -->
-        <div>
-            <h1>{{ titulo3 }}</h1>
-            <ul>
-                <li v-for="pedido in pedidos" :key="pedido.id">{{ pedido.usuarioId }} - {{ pedido.productoId }} - {{
-                pedido.cantidad }}</li>
-            </ul>
-            <form @submit.prevent="agregarPedido">
-                <input type="number" v-model="usuarioIdPedido" placeholder="Usuario ID">
-                <input type="number" v-model="productoIdPedido" placeholder="Producto ID">
-                <input type="number" v-model="cantidadPedido" placeholder="Cantidad">
-                <button type="submit">Agregar Pedido</button>
-            </form>
-        </div>
+    </div>
 
+    <div class="card mt-5">
+        <div class="card-header">
+        Lista Usuarios
+        </div>
+        <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">
+                    ID
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Acciones
+                </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="usuario in usuarios" :key="usuario.id">
+                <td>{{ usuario.id }}</td>
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>
+                    <a href="#" class="icon">
+                      <i v-on:click="onEdit(product)" class="bi bi-pencil"></i>
+                    </a>
+                    <a href="#" class="icon">
+                      <i v-on:click="onDelete(product.id)" class="bi bi-trash"></i>
+                    </a>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
 
     </div>
 </template>
