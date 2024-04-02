@@ -76,7 +76,7 @@ export default {
                     //MUCHACHOS AQUI SI PUEDEN ARREGLAN LO DEL ROUTER, YO VERE
 
                     if(localStorage.token!="undefined"){
-                        this.$router.push('productos');
+                        this.$router.push('usuarios');
                     }
                     //this.$bus('autenticacionExitosa');
 
