@@ -1,4 +1,5 @@
 <template>
+    <div class="home">
     <div class="wrapper fadeInDown">
         <div id="formContent">
             <!-- Tabs Titles -->
@@ -21,6 +22,7 @@
             </div>
 
         </div>
+    </div>
     </div>
 </template>
 
@@ -72,9 +74,9 @@ export default {
                     console.log(localStorage.token);
 
                     //MUCHACHOS AQUI SI PUEDEN ARREGLAN LO DEL ROUTER, YO VERE
-                    
+
                    // if(localStorage.token!="undefined"){
-                    //this.$router.push( 'productos');
+                    this.$router.push('productos');
                     //this.$bus('autenticacionExitosa');
 
                    // }
