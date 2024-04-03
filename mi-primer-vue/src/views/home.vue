@@ -26,7 +26,7 @@
     </div>
 </template>
 
-<script>
+<script >
 
 export default {
     name: 'home',
@@ -96,7 +96,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* BASIC */
 
 html {

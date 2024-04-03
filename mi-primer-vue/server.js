@@ -1,11 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 const port = 3000;
 const jwt = require('jsonwebtoken');
+
+
+
 
 // Configura CORS
 const cors = require('cors');
@@ -27,6 +31,24 @@ connection.connect(function (error) {
         console.log('Conexión exitosa a la base de datos');
     }
 });
+
+// Configuración de multer para manejar la carga de archivos
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './src/assets/imagenes/'); // Directorio donde se guardarán los archivos
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname); // Renombrar el archivo para evitar colisiones
+    }
+
+  });
+
+  const upload = multer({ storage: storage });
+  
+  // Ruta para la carga de archivos
+    app.post('/upload', upload.single('image'), (req, res) => {
+    res.send('Archivo subido con éxito');
+  });
 
 // Maneja la solicitud POST desde el cliente
 app.post('/consultaSesion', (req, res) => {
@@ -102,8 +124,8 @@ app.get('/productos', (req, res) => {
 });
 
 app.post('/productos', (req, res) => {
-    const { nombre, precio } = req.body;
-    connection.query('INSERT INTO productos (nombre, precio) VALUES (?, ?)', [nombre, precio], (error, results) => {
+    const { nombre, precio,imagen } = req.body;
+    connection.query('INSERT INTO productos (nombre, precio,imagen) VALUES (?, ? ,?)', [nombre, precio,imagen], (error, results) => {
         if (error) throw error;
         res.json({ message: 'Producto creado', id: results.insertId });
     });

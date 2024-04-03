@@ -72,6 +72,7 @@ export default {
                     this.nombreUsuario = '';
                     this.emailUsuario = '';
                     this.passUsuario = '';
+                    this.cargarUsuarios();
                 })
                 .catch(error => {
                     console.error('Error al agregar usuario:', error);
@@ -149,7 +150,7 @@ export default {
             <input v-model="passUsuario" type="text" class="form-control ml-sm-2 mr-sm-4 my-2" required>
             </div>
             <div class="ml-auto text-right">
-            <button @click="cargarUsuarios" type="submit" class="btn btn-primary my-2">Agregar</button>
+            <button type="submit" class="btn btn-primary my-2">Agregar</button>
             </div>
         </form>
         </div>
@@ -185,10 +186,10 @@ export default {
                         <td><input type="text" v-model="usuario.nombre" class="form-control"></td>
                         <td><input type="email" v-model="usuario.email" class="form-control"></td>
                         <td>
-                            <a href="#" class="icon">
+                            <a  class="icon">
                                 <i v-on:click="actualizarUsuario(usuario)" class="bi bi-check"></i>
                             </a>
-                            <a href="#" class="icon">
+                            <a class="icon">
                                 <i v-on:click="onCancel" class="bi bi-x-circle"></i>
                             </a>
                         </td>
@@ -198,10 +199,10 @@ export default {
                         <td>{{ usuario.nombre }}</td>
                         <td>{{ usuario.email }}</td>
                         <td>
-                            <a href="#" class="icon">
+                            <a  class="icon">
                                 <i v-on:click="onEdit(usuario)" class="bi bi-pencil"></i>
                             </a>
-                            <a href="#" class="icon">
+                            <a  class="icon">
                                 <i v-on:click="eliminarUsuario(usuario.id)" class="bi bi-trash"></i>
                             </a>
                         </td>
