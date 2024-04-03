@@ -5,42 +5,13 @@ export default {
             usuarios: [],
             nombreUsuario: '',
             emailUsuario: '',
-            passUsuario: '',
-            productos: [],
-            nombreProducto: '',
-            precioProducto: '',
-            pedidos: [],
-            usuarioIdPedido: '',
-            productoIdPedido: '',
-            cantidadPedido: ''
+            passUsuario: ''
         };
     },
     mounted() {
         this.cargarUsuarios();
-        //this.cargarProductos();
-        //this.cargarPedidos();
     },
     methods: {
-        cargarProductos() {
-            fetch('http://localhost:3000/productos')
-                .then(response => response.json())
-                .then(data => {
-                    this.productos = data;
-                })
-                .catch(error => {
-                    console.error('Error al cargar productos:', error);
-                });
-        },
-        cargarPedidos() {
-            fetch('http://localhost:3000/pedidos')
-                .then(response => response.json())
-                .then(data => {
-                    this.pedidos = data;
-                })
-                .catch(error => {
-                    console.error('Error al cargar pedidos:', error);
-                });
-        },
         cargarUsuarios() {
             fetch('http://localhost:3000/usuarios')
                 .then(response => response.json())

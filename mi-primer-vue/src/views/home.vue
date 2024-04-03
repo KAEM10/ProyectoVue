@@ -31,7 +31,6 @@
 export default {
     name: 'home',
     components: {
-
     },
     data: function () {
         return {
@@ -41,7 +40,6 @@ export default {
             error_msg: "",
         }
     },
-
     methods: {
         verificar_credenciales() {
             // Construye los datos del formulario como un objeto JSON
@@ -69,24 +67,16 @@ export default {
                 })
                 .then(data => {
                     console.log(data);
-                    
                     localStorage.token=data.token;
                     console.log(localStorage.token);
-
-                    //MUCHACHOS AQUI SI PUEDEN ARREGLAN LO DEL ROUTER, YO VERE
-
                     if(localStorage.token!="undefined"){
                         this.$router.push('productos');
                     }
-                    //this.$bus('autenticacionExitosa');
-
-                   // }
                 })
                 .catch(error => {
                     console.error(error);
                 });
         }
-
     }
 
 

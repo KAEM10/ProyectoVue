@@ -2,14 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const multer = require('multer');
-const path = require('path');
-
 const app = express();
 const port = 3000;
 const jwt = require('jsonwebtoken');
-
-
-
 
 // Configura CORS
 const cors = require('cors');

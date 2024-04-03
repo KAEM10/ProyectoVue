@@ -14,8 +14,6 @@ export default {
     },
     mounted() {
         this.cargarProductos();
-        //this.cargarProductos();
-        //this.cargarPedidos();
     },
     methods: {
         cargarProductos() {
@@ -28,15 +26,12 @@ export default {
                     console.error('Error al cargar productos:', error);
                 });
         },
-
-
         agregarPedido() {
             const nuevoPedido = {
                 usuario: this.usuario,
                 producto: this.producto,
                 pedido: this.pedido,
                 cantidad: this.cantidad
-
             };
             fetch('http://localhost:3000/pedidos', {
                 method: 'POST',
@@ -55,18 +50,12 @@ export default {
                     console.error('Error al agregar usuario:', error);
                 });
         },
-
     },
-
-
-
 };
-
 </script>
 
 <template>
     <div class="pedidos">
-        
         <div class="table-responsive">
             <table class="table">
                 <tbody>
@@ -81,14 +70,11 @@ export default {
                             <a href="#" class="icon">
                                 <i v-on:click="" class="bi bi-cart-plus"></i>
                             </a>
-
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-       
     </div>
 
 </template>

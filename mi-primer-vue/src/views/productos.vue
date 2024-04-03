@@ -24,10 +24,8 @@ export default {
                 console.error('No se ha seleccionado ningún archivo.');
                 return;
             }
-
             const formData = new FormData();
             formData.append('image', this.selectedFile);
-
             fetch('http://localhost:3000/upload', {
                 method: 'POST',
                 body: formData
@@ -40,11 +38,10 @@ export default {
                 })
                 .then(data => {
                     console.log(data);
-                    // Aquí podrías mostrar algún mensaje de éxito al usuario
+                    this.$refs.inputArchivo.value = '';
                 })
                 .catch(error => {
                     console.error(error.message);
-                    // Aquí podrías mostrar algún mensaje de error al usuario
                 });
         },
         cargarProductos() {
@@ -136,10 +133,10 @@ export default {
 
 <template>
     <div class="products">
-        <h3>Usuarios</h3>
+        <h3>Productos</h3>
         <div class="card">
             <div class="card-header">
-                Agregar Nuevo Usuario
+                Agregar Nuevo Producto
             </div>
             <div class="card-body">
                 <form class="form-inline" v-on:submit.prevent="agregarProductos">
@@ -155,7 +152,7 @@ export default {
                     </div>
                     <div class="form-group">
                         <label>Imagen</label>
-                        <input type="file" accept="image/*" @change="handleFileInputChange">
+                        <input type="file" accept="image/*" @change="handleFileInputChange" ref="inputArchivo">
                     </div>
                     <div class="ml-auto text-right">
                         <button @click="uploadImage" type="submit" class="btn btn-primary my-2">Agregar</button>
