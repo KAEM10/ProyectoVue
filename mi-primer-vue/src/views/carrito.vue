@@ -211,6 +211,9 @@ export default {
                             <router-link to="/pedidos" class="nav-link">Pedidos</router-link>
                         </li>
                         <li class="nav-item">
+                            <router-link to="/carrito" class="nav-link"><a class="icon"><i class="bi bi-cart-shopping"></i></a></router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link to="/carrito" class="nav-link"><a class="icon"><i class="bi-solid bi-cart"></i></a></router-link>
                         </li>
                     </ul>
@@ -297,7 +300,6 @@ select {
     margin: 10px;
     width: 200px;
 }
-
 .navbar-nav {
     font-size: 1.2rem;
 }

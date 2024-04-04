@@ -3,6 +3,7 @@ import productos from '../views/productos.vue';
 import usuarios from '../views/usuarios.vue';
 import pedidos from '../views/pedidos.vue';
 import home from '../views/home.vue';
+import carrito from '../views/carrito.vue';
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/pedidos',
     name: 'pedidos',
     component: pedidos,
+  },
+  {
+    path: '/carrito',
+    name: 'carrito',
+    component: carrito,
   }
 ];
 
