@@ -229,7 +229,7 @@ export default {
                                 <template v-else>
                                     <td>{{ producto.id }}</td>
                                     <td>{{ producto.nombre }}</td>
-                                    <td>{{ producto.precio }}</td>
+                                    <td>${{ producto.precio }}</td>
                                     <td>
                                         <a href="#" class="icon">
                                             <i v-on:click="onEdit(producto)" class="bi bi-pencil"></i>

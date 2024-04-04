@@ -2,188 +2,26 @@
 export default {
     data() {
         return {
-            productos: [],
-            carrito: [],
-            nombreProducto: '',
-            precioProducto: '',
             pedidos: [],
-            idProductos: [],
-            pedidosProducto: [],
-            usuarioIdPedido: '',
-            productoIdPedido: '',
-            cantidadPedido: '',
-            usuarios: [],
-            ruta: '/src/assets/imagenes/',
-            numero: 1,
-            pedidoId: '',
-            pedidoN: '',
-            usuarioPedido: null
-
         };
     },
     mounted() {
-        this.cargarProductos();
-        this.cargarUsuarios();
+        this.cargarPedidos();
     },
     methods: {
-        cargarUsuarios() {
-            fetch('http://localhost:3000/usuarios')
+        cargarPedidos() {
+            fetch('http://localhost:3000/listaPedidos')
                 .then(response => response.json())
                 .then(data => {
-                    this.usuarios = data;
+                    this.pedidos = data;
                 })
                 .catch(error => {
-                    console.error('Error al cargar usuarios:', error);
-                });
-        },
-        agregarCarrito(producto, cantidad) {
-            const nuevoProducto = {
-                varProducto: producto,
-                varNum: cantidad
-            }
-
-            const productoExistente = this.carrito.find(item => item.varProducto.id === producto.id);
-
-            if (productoExistente) {
-                window.alert("El producto ya está agregado");
-            } else {
-                this.carrito.push(nuevoProducto);
-            }
-        },
-        quitarCarrito(id) {
-            const index = this.carrito.findIndex(item => item.varProducto.id === id);
-            if (index !== -1) {
-                this.carrito.splice(index, 1);
-            } else {
-                window.alert("El producto no está en el carrito");
-            }
-        },
-        limpiarCarrito() {
-            this.carrito = [];
-        },
-        cargarProductos() {
-            fetch('http://localhost:3000/productos')
-                .then(response => response.json())
-                .then(data => {
-                    this.productos = data;
-                })
-                .catch(error => {
-                    console.error('Error al cargar productos:', error);
-                });
-        },
-        agregarProductoPedido() {
-
-            console.log(this.pedidoId);
-            this.carrito.forEach(element => {
-                this.obtenerIdProducto(element.varProducto.nombre).then(data => {
-                    console.log('Datos obtenidos:', data);
-                    console.log(this.pedidoId);
-
-                    console.log(this.idProductos);
-                    const nuevoProductoPedido = {
-                        pedidoId: this.pedidoId,
-                        productosId: data[0].id,
-                        cantidad:element.varNum
-                    };
-                    fetch('http://localhost:3000/pedidoProducto', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(nuevoProductoPedido)
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            // Si la solicitud es exitosa, actualiza la lista de usuarios
-                            this.pedidosProducto.push(data);
-                            // Limpia los campos de entrada
-                        })
-                        .catch(error => {
-                            console.error('Error al agregar usuario:', error);
-                        });
-                })
-                    .catch(error => {
-                        console.error('Error al obtener ID del producto:', error);
-                    });
-
-
-
-            });
-            this.limpiarCarrito();
-
-
-
-
-        },
-
-        agregarPedido() {
-
-
-            const nuevoPedido = {
-                usuarioId: this.usuarioPedido.id
-            };
-
-            fetch('http://localhost:3000/pedidos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(nuevoPedido)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Si la solicitud es exitosa, actualiza la lista de usuarios
-                    console.log(data);
-                    this.pedidos.push(data);
-                    // Limpia los campos de entrada
-                })
-                .catch(error => {
-                    console.error('Error al agregar usuario:', error);
-                });
-            this.obtenerPedido()
-        },
-        obtenerPedido() {
-            fetch('http://localhost:3000/pedidos')
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data[0].id);
-                    this.pedidoId = data[0].id;
-                    this.agregarProductoPedido();
-                    return data;
-                })
-                .catch(error => {
-                    console.error('Error al cargar productos:', error);
+                    console.error('Error al cargar pedidos:', error);
                 });
 
-        },
-        obtenerIdProducto(nombre) {
-            const nuevoProducto = {
-                varNombre: nombre
-            };
 
-            return new Promise((resolve, reject) => {
-                fetch('http://localhost:3000/idProductos', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(nuevoProducto)
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error al obtener el ID del producto');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        resolve(data);
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar productos:', error);
-                        reject(error);
-                    });
-            });
-        }
+        },
+
 
     },
 };
@@ -211,7 +49,8 @@ export default {
                             <router-link to="/pedidos" class="nav-link">Pedidos</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/carrito" class="nav-link"><a class="icon"><i class="bi-solid bi-cart"></i></a></router-link>
+                            <router-link to="/carrito" class="nav-link"><a class="icon"><i
+                                        class="bi-solid bi-cart"></i></a></router-link>
                         </li>
                     </ul>
                 </div>
@@ -220,46 +59,47 @@ export default {
     </div>
     <h3>Pedidos</h3>
 
-    <div>
-        <label>Usuario:</label>
-        <select v-model="usuarioPedido">
-            <option v-for="usuario in usuarios" :value="usuario">{{ usuario.nombre }}</option>
-        </select>
-    </div>
-
-    <div>
-        <div>
-            <ul class="list-group">
-                <li class="list-group-item" v-for="producto in carrito" :key="producto.varProducto.id">
-                    {{ producto.varProducto.nombre }} - ${{ producto.varProducto.precio }}
-                    <label>Cantidad: </label>
-                    <input type="number" v-model="producto.varNum" min="1" max="10" step="1">
-                </li>
-            </ul>
-            <button v-if="carrito.length > 0" class="btn btn-primary mb-3" @click="limpiarCarrito">Limpiar
-                Carrito</button>
-            <button v-if="carrito.length > 0" class="btn btn-primary mb-3" @click="agregarPedido"> Crear Pedido</button>
-        </div>
-    </div>
-
     <div class="pedidos">
         <div class="table-responsive">
             <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            ID PEDIDO
+                        </th>
+                        <th>
+                            USUARIO
+                        </th>
+                        <th >
+                            ID PRODUCTO
+                        </th>
+                        <th>
+                            NOMBRE
+                        </th>
+                        
+                        <th>
+                            PRECIO C/U
+                        </th>
+                        <th>
+                            NUMERO PRODUCTOS
+                        </th>
+                        <th>
+                            VALOR TOTAL
+                        </th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr v-for="producto in productos" :key="producto.id">
-                        <td>{{ producto.nombre }}</td>
-                        <td>${{ producto.precio }}</td>
-                        <td>
-                            <img :src="ruta + producto.imagen" class="img-fluid">
-                        </td>
-                        <td>
-                            <a class="icon">
-                                <i v-on:click="agregarCarrito(producto, 1)" class="bi bi-cart-plus"></i>
-                            </a>
-                            <a class="icon">
-                                <i v-on:click="quitarCarrito(producto.id)" class="bi bi-trash"></i>
-                            </a>
-                        </td>
+                    <tr v-for="pedido in pedidos" :key="pedido.id">
+                        <td>{{ pedido.id_pedido }}</td>
+                        <td>{{ pedido.nombre_usuario }}</td>
+                        <td>{{ pedido.id_producto }}</td>
+                        <td>{{ pedido.nombre_producto }}</td>
+                        
+                       
+                        <td>${{ pedido.precioUnidad }}</td>
+                        <td>{{ pedido.numProductos }}</td>
+                        <td>${{ pedido.total }}</td>
+
                     </tr>
                 </tbody>
             </table>

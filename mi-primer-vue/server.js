@@ -165,6 +165,16 @@ app.get('/pedidos', (req, res) => {
     });
 });
 
+app.get('/listaPedidos', (req, res) => {
+    connection.query('SELECT prod.id AS id_producto,prod.nombre AS nombre_producto,p.id AS id_pedido,u.nombre AS nombre_usuario,prod.precio AS precioUnidad,SUM(prod.precio*cantidad) AS total,SUM(cantidad) AS numProductos FROM pedido_productos pp INNER JOIN pedidos p ON p.id = pp.pedido_id INNER JOIN usuarios u ON u.id = p.usuario_id INNER JOIN productos prod ON prod.id = pp.producto_id GROUP BY prod.id, p.id, u.nombre, prod.precio ORDER BY p.id;;', (error, results) => {
+        if (error) {
+            res.status(500).json({ error: 'Error al obtener lista pedidos' });
+        } else {
+            res.json(results);
+        }
+    });
+});
+
 
 
 app.post('/idProductos', (req, res) => {

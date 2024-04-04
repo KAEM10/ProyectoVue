@@ -83,7 +83,7 @@ export default {
                     const nuevoProductoPedido = {
                         pedidoId: this.pedidoId,
                         productosId: data[0].id,
-                        cantidad:element.varNum
+                        cantidad: element.varNum
                     };
                     fetch('http://localhost:3000/pedidoProducto', {
                         method: 'POST',
@@ -110,14 +110,9 @@ export default {
 
             });
             this.limpiarCarrito();
-
-
-
-
         },
 
         agregarPedido() {
-
 
             const nuevoPedido = {
                 usuarioId: this.usuarioPedido.id
@@ -135,13 +130,16 @@ export default {
                     // Si la solicitud es exitosa, actualiza la lista de usuarios
                     console.log(data);
                     this.pedidos.push(data);
+                    this.pedidoId = data.id;
                     // Limpia los campos de entrada
                 })
                 .catch(error => {
                     console.error('Error al agregar usuario:', error);
                 });
-            this.obtenerPedido()
+            this.agregarProductoPedido();
+            //this.obtenerPedido()
         },
+        /*
         obtenerPedido() {
             fetch('http://localhost:3000/pedidos')
                 .then(response => response.json())
@@ -155,7 +153,7 @@ export default {
                     console.error('Error al cargar productos:', error);
                 });
 
-        },
+        },*/
         obtenerIdProducto(nombre) {
             const nuevoProducto = {
                 varNombre: nombre
@@ -211,17 +209,19 @@ export default {
                             <router-link to="/pedidos" class="nav-link">Pedidos</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/carrito" class="nav-link"><a class="icon"><i class="bi bi-cart-shopping"></i></a></router-link>
+                            <router-link to="/carrito" class="nav-link"><a class="icon"><i
+                                        class="bi bi-cart-shopping"></i></a></router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/carrito" class="nav-link"><a class="icon"><i class="bi-solid bi-cart"></i></a></router-link>
+                            <router-link to="/carrito" class="nav-link"><a class="icon"><i
+                                        class="bi-solid bi-cart"></i></a></router-link>
                         </li>
                     </ul>
                 </div>
             </div>
         </header>
     </div>
-    <h3>Pedidos</h3>
+    <h3>Carrito</h3>
 
     <div>
         <label>Usuario:</label>
@@ -300,6 +300,7 @@ select {
     margin: 10px;
     width: 200px;
 }
+
 .navbar-nav {
     font-size: 1.2rem;
 }
