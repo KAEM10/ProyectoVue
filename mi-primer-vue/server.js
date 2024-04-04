@@ -30,20 +30,20 @@ connection.connect(function (error) {
 // Configuración de multer para manejar la carga de archivos
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './src/assets/imagenes/'); // Directorio donde se guardarán los archivos
+        cb(null, './src/assets/imagenes/'); // Directorio donde se guardarán los archivos
     },
     filename: function (req, file, cb) {
-      cb(null, file.originalname); // Renombrar el archivo para evitar colisiones
+        cb(null, file.originalname); // Renombrar el archivo para evitar colisiones
     }
 
-  });
+});
 
-  const upload = multer({ storage: storage });
-  
-  // Ruta para la carga de archivos
-    app.post('/upload', upload.single('image'), (req, res) => {
+const upload = multer({ storage: storage });
+
+// Ruta para la carga de archivos
+app.post('/upload', upload.single('image'), (req, res) => {
     res.send('Archivo subido con éxito');
-  });
+});
 
 // Maneja la solicitud POST desde el cliente
 app.post('/consultaSesion', (req, res) => {
@@ -119,8 +119,8 @@ app.get('/productos', (req, res) => {
 });
 
 app.post('/productos', (req, res) => {
-    const { nombre, precio,imagen } = req.body;
-    connection.query('INSERT INTO productos (nombre, precio,imagen) VALUES (?, ? ,?)', [nombre, precio,imagen], (error, results) => {
+    const { nombre, precio, imagen } = req.body;
+    connection.query('INSERT INTO productos (nombre, precio,imagen) VALUES (?, ? ,?)', [nombre, precio, imagen], (error, results) => {
         if (error) throw error;
         res.json({ message: 'Producto creado', id: results.insertId });
     });
@@ -129,7 +129,7 @@ app.post('/productos', (req, res) => {
 app.put('/productos/:id', (req, res) => {
     const id = req.params.id;
     const { nombre, precio } = req.body;
-    connection.query('UPDATE productos SET nombre = ?, precio = ? WHERE id = ?', [nombre, precio,id], (error, results) => {
+    connection.query('UPDATE productos SET nombre = ?, precio = ? WHERE id = ?', [nombre, precio, id], (error, results) => {
         if (error) throw error;
         res.json({ message: 'Producto actualizado' });
     });
@@ -148,7 +148,7 @@ app.delete('/productos/:id', (req, res) => {
 
 
 app.post('/pedidos', (req, res) => {
-    const {usuarioId} = req.body;
+    const { usuarioId } = req.body;
     connection.query('INSERT INTO pedidos (usuario_id) VALUES (?)', [usuarioId], (error, results) => {
         if (error) throw error;
         res.json({ message: 'Pedido creado', id: results.insertId });
@@ -165,9 +165,11 @@ app.get('/pedidos', (req, res) => {
     });
 });
 
+
+
 app.post('/idProductos', (req, res) => {
-    const {nombre} = req.body;
-    connection.query('SELECT id FROM productos where nombre=?',[nombre] ,(error, results) => {
+    const { varNombre } = req.body
+    connection.query('SELECT id FROM productos where nombre=?', [varNombre], (error, results) => {
         if (error) {
             res.status(500).json({ error: 'Error al obtener el id' });
         } else {
@@ -178,15 +180,17 @@ app.post('/idProductos', (req, res) => {
 
 
 
-app.post('/pedidoProducto', (req, res) => {
-    const {pedidoId,idProductos,carrito} = req.body;
 
-    for (let i = 0; i < carrito.length; i++) {
-        connection.query('INSERT INTO pedido_productos (producto_id,pedido_id,cantidad) VALUES (?,?,?)', [idProductos[i],pedidoId,carrito[i].varNum], (error, results) => {
-            if (error) throw error;
-            res.json({ message: 'Pedido creado', id: results.insertId });
-        });
-      }
+app.post('/pedidoProducto', (req, res) => {
+    const { pedidoId, productosId, cantidad} = req.body;
+
+    //console.log(req.body);
+
+    connection.query('INSERT INTO pedido_productos (producto_id,pedido_id,cantidad) VALUES (?,?,?)', [productosId, pedidoId, cantidad], (error, results) => {
+        if (error) throw error;
+        res.json({ message: 'Pedido creado', id: results.insertId });
+    });
+
 });
 
 app.listen(port, () => {

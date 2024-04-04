@@ -15,8 +15,10 @@ export default {
             usuarios: [],
             ruta: '/src/assets/imagenes/',
             numero: 1,
-            usuarioPedido: null,
-            pedidoId: ''
+            pedidoId: '',
+            pedidoN: '',
+            usuarioPedido: null
+
         };
     },
     mounted() {
@@ -48,7 +50,7 @@ export default {
                 this.carrito.push(nuevoProducto);
             }
         },
-        quitarCarrito( id) {
+        quitarCarrito(id) {
             const index = this.carrito.findIndex(item => item.varProducto.id === id);
             if (index !== -1) {
                 this.carrito.splice(index, 1);
@@ -71,35 +73,47 @@ export default {
         },
         agregarProductoPedido() {
 
-            this.obtenerPedido();
-            console.log(this.pedidoId.id)
+            console.log(this.pedidoId);
             this.carrito.forEach(element => {
-                this.obtenerIdProducto(element.varProducto.nombre);
-            });
+                this.obtenerIdProducto(element.varProducto.nombre).then(data => {
+                    console.log('Datos obtenidos:', data);
+                    console.log(this.pedidoId);
 
-            console.log(this.idProductos);
-            const nuevoProductoPedido = {
-                pedidoId: this.pedidoId.id,
-                productosId: this.idProductos,
-                productos: this.carrito
-            };
-
-            fetch('http://localhost:3000/pedidoProducto', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(nuevoProductoPedido)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Si la solicitud es exitosa, actualiza la lista de usuarios
-                    this.pedidosProducto.push(data);
-                    // Limpia los campos de entrada
+                    console.log(this.idProductos);
+                    const nuevoProductoPedido = {
+                        pedidoId: this.pedidoId,
+                        productosId: data[0].id,
+                        cantidad:element.varNum
+                    };
+                    fetch('http://localhost:3000/pedidoProducto', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(nuevoProductoPedido)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Si la solicitud es exitosa, actualiza la lista de usuarios
+                            this.pedidosProducto.push(data);
+                            // Limpia los campos de entrada
+                        })
+                        .catch(error => {
+                            console.error('Error al agregar usuario:', error);
+                        });
                 })
-                .catch(error => {
-                    console.error('Error al agregar usuario:', error);
-                });
+                    .catch(error => {
+                        console.error('Error al obtener ID del producto:', error);
+                    });
+
+
+
+            });
+            this.limpiarCarrito();
+
+
+
+
         },
 
         agregarPedido() {
@@ -119,45 +133,57 @@ export default {
                 .then(response => response.json())
                 .then(data => {
                     // Si la solicitud es exitosa, actualiza la lista de usuarios
+                    console.log(data);
                     this.pedidos.push(data);
                     // Limpia los campos de entrada
                 })
                 .catch(error => {
                     console.error('Error al agregar usuario:', error);
                 });
-            this.agregarProductoPedido()
+            this.obtenerPedido()
         },
         obtenerPedido() {
             fetch('http://localhost:3000/pedidos')
                 .then(response => response.json())
                 .then(data => {
-                    
-                    this.pedidoId = data;
+                    console.log(data[0].id);
+                    this.pedidoId = data[0].id;
+                    this.agregarProductoPedido();
+                    return data;
                 })
                 .catch(error => {
                     console.error('Error al cargar productos:', error);
                 });
+
         },
         obtenerIdProducto(nombre) {
             const nuevoProducto = {
                 varNombre: nombre
             };
-            fetch('http://localhost:3000/idProductos',{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(nuevoProducto)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    //this.idProductos.push(data);
+
+            return new Promise((resolve, reject) => {
+                fetch('http://localhost:3000/idProductos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(nuevoProducto)
                 })
-                .catch(error => {
-                    console.error('Error al cargar productos:', error);
-                });
-        },
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al obtener el ID del producto');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        resolve(data);
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar productos:', error);
+                        reject(error);
+                    });
+            });
+        }
 
     },
 };
@@ -228,7 +254,7 @@ export default {
                                 <i v-on:click="agregarCarrito(producto, 1)" class="bi bi-cart-plus"></i>
                             </a>
                             <a class="icon">
-                                <i v-on:click="quitarCarrito(producto, producto.id)" class="bi bi-trash"></i>
+                                <i v-on:click="quitarCarrito(producto.id)" class="bi bi-trash"></i>
                             </a>
                         </td>
                     </tr>

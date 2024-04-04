@@ -181,10 +181,10 @@ export default {
                         <td><input type="text" v-model="usuario.nombre" class="form-control"></td>
                         <td><input type="email" v-model="usuario.email" class="form-control"></td>
                         <td>
-                            <a  class="icon">
+                            <a href="#" class="icon">
                                 <i v-on:click="actualizarUsuario(usuario)" class="bi bi-check"></i>
                             </a>
-                            <a class="icon">
+                            <a href="#" class="icon">
                                 <i v-on:click="onCancel" class="bi bi-x-circle"></i>
                             </a>
                         </td>
@@ -194,10 +194,10 @@ export default {
                         <td>{{ usuario.nombre }}</td>
                         <td>{{ usuario.email }}</td>
                         <td>
-                            <a  class="icon">
+                            <a href="#" class="icon">
                                 <i v-on:click="onEdit(usuario)" class="bi bi-pencil"></i>
                             </a>
-                            <a  class="icon">
+                            <a href="#" class="icon">
                                 <i v-on:click="eliminarUsuario(usuario.id)" class="bi bi-trash"></i>
                             </a>
                         </td>
