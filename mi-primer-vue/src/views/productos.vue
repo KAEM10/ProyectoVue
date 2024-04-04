@@ -132,6 +132,30 @@ export default {
 </script>
 
 <template>
+    <div>
+        <header class="header navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <router-link to="/" class="navbar-brand">RappiChamo</router-link>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <router-link to="/usuarios" class="nav-link">Usuarios</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/productos" class="nav-link">Productos</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/pedidos" class="nav-link">Pedidos</router-link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+    </div>
     <div class="products">
         <h3>Productos</h3>
         <div class="card">

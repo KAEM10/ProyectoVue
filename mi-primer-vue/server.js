@@ -144,6 +144,51 @@ app.delete('/productos/:id', (req, res) => {
 });
 
 
+
+
+
+app.post('/pedidos', (req, res) => {
+    const {usuarioId} = req.body;
+    connection.query('INSERT INTO pedidos (usuario_id) VALUES (?)', [usuarioId], (error, results) => {
+        if (error) throw error;
+        res.json({ message: 'Pedido creado', id: results.insertId });
+    });
+});
+
+app.get('/pedidos', (req, res) => {
+    connection.query('SELECT id FROM pedidos ORDER BY id DESC LIMIT 1', (error, results) => {
+        if (error) {
+            res.status(500).json({ error: 'Error al obtener pedidos' });
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+app.post('/idProductos', (req, res) => {
+    const {nombre} = req.body;
+    connection.query('SELECT id FROM productos where nombre=?',[nombre] ,(error, results) => {
+        if (error) {
+            res.status(500).json({ error: 'Error al obtener el id' });
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+
+
+app.post('/pedidoProducto', (req, res) => {
+    const {pedidoId,idProductos,carrito} = req.body;
+
+    for (let i = 0; i < carrito.length; i++) {
+        connection.query('INSERT INTO pedido_productos (producto_id,pedido_id,cantidad) VALUES (?,?,?)', [idProductos[i],pedidoId,carrito[i].varNum], (error, results) => {
+            if (error) throw error;
+            res.json({ message: 'Pedido creado', id: results.insertId });
+        });
+      }
+});
+
 app.listen(port, () => {
     console.log(`Servidor iniciado en http://localhost:${port}`);
 });
