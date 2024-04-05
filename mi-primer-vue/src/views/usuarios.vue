@@ -91,6 +91,7 @@ export default {
                     if (index !== -1) {
                         this.usuarios.splice(index, 1);
                     }
+                    alert("Usuario eliminado con exito");
                     // Volver a cargar la lista de usuarios
                     this.cargarUsuarios();
                 })

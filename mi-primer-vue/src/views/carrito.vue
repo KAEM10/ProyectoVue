@@ -17,6 +17,7 @@ export default {
             numero: 1,
             pedidoId: '',
             pedidoN: '',
+            mostrar: false,
             usuarioPedido: null,
             showUserMenu: false
         };
@@ -58,7 +59,7 @@ export default {
             if (index !== -1) {
                 this.carrito.splice(index, 1);
             } else {
-                window.alert("El producto no está en el carrito");
+                alert("El producto no esta agregado en el carrito");
             }
         },
         limpiarCarrito() {
@@ -116,47 +117,50 @@ export default {
         },
 
         agregarPedido() {
+            if (this.usuarioPedido != null) {
+                const nuevoPedido = {
+                    usuarioId: this.usuarioPedido.id
+                };
 
-            const nuevoPedido = {
-                usuarioId: this.usuarioPedido.id
-            };
-
-            fetch('http://localhost:3000/pedidos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(nuevoPedido)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Si la solicitud es exitosa, actualiza la lista de usuarios
-                    console.log(data);
-                    this.pedidos.push(data);
-                    this.pedidoId = data.id;
-                    // Limpia los campos de entrada
+                fetch('http://localhost:3000/pedidos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(nuevoPedido)
                 })
-                .catch(error => {
-                    console.error('Error al agregar usuario:', error);
-                });
-            this.agregarProductoPedido();
-            //this.obtenerPedido()
+                    .then(response => response.json())
+                    .then(data => {
+                        // Si la solicitud es exitosa, actualiza la lista de usuarios
+                        console.log(data);
+                        this.pedidos.push(data);
+                        this.pedidoId = data.id;
+                        // Limpia los campos de entrada
+                    })
+                    .catch(error => {
+                        console.error('Error al agregar usuario:', error);
+                    });
+                this.agregarProductoPedido();
+                //this.obtenerPedido()
+            }else{
+                alert("Seleccione un usuario");
+            }
         },
-       /* 
-        obtenerPedido() {
-            fetch('http://localhost:3000/pedidos')
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data[0].id);
-                    this.pedidoId = data[0].id;
-                    this.agregarProductoPedido();
-                    return data;
-                })
-                .catch(error => {
-                    console.error('Error al cargar productos:', error);
-                });
-
-        },*/
+        /* 
+         obtenerPedido() {
+             fetch('http://localhost:3000/pedidos')
+                 .then(response => response.json())
+                 .then(data => {
+                     console.log(data[0].id);
+                     this.pedidoId = data[0].id;
+                     this.agregarProductoPedido();
+                     return data;
+                 })
+                 .catch(error => {
+                     console.error('Error al cargar productos:', error);
+                 });
+ 
+         },*/
         obtenerIdProducto(nombre) {
             const nuevoProducto = {
                 varNombre: nombre
@@ -279,7 +283,7 @@ export default {
                                 <i v-on:click="agregarCarrito(producto, 1)" class="bi bi-cart-plus"></i>
                             </a>
                             <a class="icon">
-                                <i v-on:click="quitarCarrito(producto.id)" class="bi bi-trash"></i>
+                                <i v-on:click="quitarCarrito(producto.id)" class="bi bi-trash"> </i>
                             </a>
                         </td>
                     </tr>

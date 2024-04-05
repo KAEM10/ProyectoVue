@@ -10,7 +10,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component:home,
+    component: home,
   },
 
   {
@@ -64,7 +64,7 @@ const router = createRouter({
 const isLoggedIn = () => {
   // Aquí puedes verificar si el token de sesión existe en el almacenamiento local
   // Devuelve true si el token está definido, de lo contrario, devuelve false
-  if(localStorage.getItem('token') != null && localStorage.getItem('token') != "undefined"){
+  if (localStorage.getItem('token') != null && localStorage.getItem('token') != "undefined") {
 
     return true;
   } return false;

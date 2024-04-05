@@ -123,6 +123,7 @@ export default {
                     if (index !== -1) {
                         this.productos.splice(index, 1);
                     }
+                    alert("Producto eliminado con exito");
                     // Volver a cargar la lista de usuarios
                     this.cargarProductos();
                 })
