@@ -196,7 +196,6 @@ app.post('/pedidoProducto', (req, res) => {
 
     //console.log(req.body);
 
-    console.log(productosId[i]);
     connection.query('INSERT INTO pedido_productos (producto_id,pedido_id,cantidad) VALUES (?,?,?)', [productosId, pedidoId, cantidad], (error, results) => {
         if (error) throw error;
         res.json({ message: 'Pedido creado', id: results.insertId });

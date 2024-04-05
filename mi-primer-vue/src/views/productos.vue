@@ -6,7 +6,8 @@ export default {
             productos: [],
             nombreProducto: '',
             precioProducto: '',
-            selectedFile: null
+            selectedFile: null,
+            showUserMenu: false
         };
     },
     mounted() {
@@ -15,6 +16,9 @@ export default {
 
     },
     methods: {
+        toggleUserMenu() {
+            this.showUserMenu = !this.showUserMenu;
+        },
         handleFileInputChange(event) {
             this.selectedFile = event.target.files[0];
             console.log(this.selectedFile.name);
@@ -133,9 +137,12 @@ export default {
 
 <template>
     <div>
+        <!-- Header -->
         <header class="header navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <router-link to="/" class="navbar-brand">RappiChamo</router-link>
+                <router-link to="/home" class="navbar-brand">
+                    <i class="bi bi-shop"></i> RappiChamo
+                </router-link>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -143,16 +150,34 @@ export default {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <router-link to="/usuarios" class="nav-link">Usuarios</router-link>
+                            <router-link to="/usuarios" class="nav-link">
+                                <i class="bi bi-person"></i> Usuarios
+                            </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/productos" class="nav-link">Productos</router-link>
+                            <router-link to="/productos" class="nav-link">
+                                <i class="bi bi-box"></i> Productos
+                            </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/pedidos" class="nav-link">Pedidos</router-link>
+                            <router-link to="/pedidos" class="nav-link">
+                                <i class="bi bi-cart-check"></i> Pedidos
+                            </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/carrito" class="nav-link"><a class="icon"><i class="bi-solid bi-cart"></i></a></router-link>
+                            <router-link to="/carrito" class="nav-link">
+                                <i class="bi bi-cart-fill"></i> Carrito
+                            </router-link>
+                        </li>
+                        <li class="nav-item" @click="toggleUserMenu">
+                            <a href="#" class="nav-link">
+                                <i class="bi bi-person"></i>
+                            </a>
+                        </li>
+                        <li v-show="showUserMenu" class="nav-item">
+                            <router-link to="/" class="nav-link">
+                                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                            </router-link>
                         </li>
                     </ul>
                 </div>

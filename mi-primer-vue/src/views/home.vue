@@ -6,13 +6,13 @@
 
             <!-- Icon -->
             <div class="fadeIn first">
-                <img src="../../public/logo.png" id="icon" alt="User Icon" />
+                <img src="/logo.png" id="icon" alt="User Icon" />
             </div>
 
             <!-- Login Form -->
             <form v-on:submit.prevent="verificar_credenciales">
                 <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" v-model="login">
-                <input type="text" id="password" class="fadeIn third" name="login" placeholder="password"
+                <input type="password" id="password" class="fadeIn third" name="login" placeholder="password"
                     v-model="password">
                 <input type="submit" class="fadeIn fourth" value="Log In">
             </form>
@@ -39,6 +39,9 @@ export default {
             error: "",
             error_msg: "",
         }
+    },
+    mounted(){
+        localStorage.removeItem('token');
     },
     methods: {
         verificar_credenciales() {
@@ -70,7 +73,7 @@ export default {
                     localStorage.token=data.token;
                     console.log(localStorage.token);
                     if(localStorage.token!="undefined"){
-                        this.$router.push('productos');
+                        this.$router.push('home');
                     }
                 })
                 .catch(error => {
@@ -210,7 +213,7 @@ input[type=reset]:active {
     transform: scale(0.95);
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
     background-color: #f6f6f6;
     border: none;
     color: #0d0d0d;
@@ -231,7 +234,7 @@ input[type=text] {
     border-radius: 5px 5px 5px 5px;
 }
 
-input[type=text]:focus {
+input[type=text], input[type=password]:focus {
     background-color: #fff;
     border-bottom: 2px solid #5fbae9;
 }
