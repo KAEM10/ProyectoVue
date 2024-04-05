@@ -142,21 +142,7 @@ export default {
             this.agregarProductoPedido();
             //this.obtenerPedido()
         },
-        /*
-        obtenerPedido() {
-            fetch('http://localhost:3000/pedidos')
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data[0].id);
-                    this.pedidoId = data[0].id;
-                    this.agregarProductoPedido();
-                    return data;
-                })
-                .catch(error => {
-                    console.error('Error al cargar productos:', error);
-                });
-
-        },*/
+       
         obtenerIdProducto(nombre) {
             const nuevoProducto = {
                 varNombre: nombre
