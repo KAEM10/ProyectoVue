@@ -136,7 +136,8 @@ export default {
 
 <style scoped>
 .pedidos {
-    background-color: rgba(158, 246, 246, 0.722);
+    background-color: #f0f5f9;
+    /* Color pastel */
 }
 img {
     width: 150px;
