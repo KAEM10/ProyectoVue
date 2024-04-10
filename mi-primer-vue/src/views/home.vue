@@ -69,9 +69,7 @@ export default {
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
                     localStorage.token=data.token;
-                    console.log(localStorage.token);
                     if(localStorage.token!="undefined"){
                         this.$router.push('home');
                     }
